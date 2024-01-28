@@ -4,7 +4,7 @@ Tired of making "in-house" HMMs to find your proteins and/or domains of interest
 
 Well, these scripts can help you do that!
 
-See example.sh
+See run_example.sh
 
 ## Dependencies
 
