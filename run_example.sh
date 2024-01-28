@@ -15,19 +15,20 @@
 
 ## Fetch all the proteins from D. melanogaster that contain IPR036188 (one superfamily of known flavoprotein) domains
 echo "!! RUNNING InterPro_API_fetch_domain_aware_FASTA.py !!"
-python InterPro_API_fetch_domain_aware_FASTA.py IPR036188 7227
+python InterPro_API_fetch_domain_aware_FASTA.py -f example_downloads IPR036188 7227
 
-INPUT_FASTA=./downloads/uniprot_IPR036188_7227.fasta
+INPUT_FASTA=./example_downloads/uniprot_IPR036188_7227.fasta
 
 echo "!! RUNNING InterPro_FASTA_description_to_bed.py !!"
-./InterPro_FASTA_description_to_bed.py ${INPUT_FASTA}
+FASTA_TO_BED_OUTPUT_DIR=example_bed
+./InterPro_FASTA_description_to_bed.py -o ${FASTA_TO_BED_OUTPUT_DIR} ${INPUT_FASTA}
 
+BEDTOOLS_OUTPUT_DIR="example_bed_fasta"
 echo "!! RUNNING bedtools !!"
-mkdir -p bed_fasta
-for b in ./bed/*
+mkdir -p ${BEDTOOLS_OUTPUT_DIR}
+for b in ./${FASTA_TO_BED_OUTPUT_DIR}/*
 do
-bedtools getfasta -name -fi $INPUT_FASTA -bed $b > bed_fasta/$(basename $b).fasta
-
+bedtools getfasta -name -fi $INPUT_FASTA -bed $b > "${BEDTOOLS_OUTPUT_DIR}/$(basename $b).fasta"
 done
 
 echo "(All done!, check for the results in the downloads, bed, and bed_fasta folders...)"
